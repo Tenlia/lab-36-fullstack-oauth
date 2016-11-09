@@ -10,7 +10,8 @@
   "env": {
     "es6": true,
     "node": true,
-    "jasmine": true
+    "jasmine": true,
+    "mocha": true
   },
   "globals": {
     "angular": true,
