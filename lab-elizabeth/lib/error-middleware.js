@@ -1,7 +1,7 @@
 'use strict';
 
 const createError = require('http-errors');
-const debug = require('debug')('slugram:error-middleware');
+const debug = require('debug')('bookstagram:error-middleware');
 
 module.exports = function(err, req, res, next){
   debug('error middleware');

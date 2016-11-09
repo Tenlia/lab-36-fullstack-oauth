@@ -5,7 +5,7 @@ const AWS = require('aws-sdk');
 const Router = require('express').Router;
 const jsonParser = require('body-parser').json();
 const createError = require('http-errors');
-const debug = require('debug')('slugram:gallery-route');
+const debug = require('debug')('bookstagram:gallery-route');
 
 // app
 const Pic = require('../model/pic.js');

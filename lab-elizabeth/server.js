@@ -7,16 +7,16 @@ const morgan = require('morgan');
 const express = require('express');
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
-const debug = require('debug')('slugram:sever');
+const debug = require('debug')('bookstagram:server');
+
+// load env vars
+dotenv.load({path: `${__dirname}/.server.env`});
 
 // app modules
 const picRouter = require('./route/pic-router.js');
 const authRouter = require('./route/auth-router.js');
 const galleryRouter = require('./route/gallery-router.js');
 const errorMiddleware = require('./lib/error-middleware.js');
-
-// load env vars
-dotenv.load();
 
 // setup mongoose
 mongoose.Promise = Promise;
@@ -28,12 +28,14 @@ const app = express();
 
 
 // app middleware
+
 app.use(cors());
 let production = process.env.NODE_ENV === 'production';
 let morganFormat = production ? 'common' : 'dev';
 app.use(morgan(morganFormat));
 
 // app routes
+app.use(express.static(`${__dirname}/build`));
 app.use(picRouter);
 app.use(authRouter);
 app.use(galleryRouter);

@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('slugram:server-ctrl');
+const debug = require('debug')('bookstagram:server-ctrl');
 
 module.exports = exports = {};
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('slugram:query-middleware');
+const debug = require('debug')('bookstagram:query-middleware');
 
 module.exports = function(req, res, next){
   debug('creating itempage queries');

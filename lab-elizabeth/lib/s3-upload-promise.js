@@ -1,7 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const debug = require('debug')('slugram:s3-upload-promise');
+const debug = require('debug')('bookstagram:s3-upload-promise');
 
 const s3 = new AWS.S3();
 

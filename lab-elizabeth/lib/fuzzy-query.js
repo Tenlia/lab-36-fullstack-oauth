@@ -1,6 +1,6 @@
 'use strict';
 
-let debug = require('debug')('slugram:fuzzy-query');
+let debug = require('debug')('bookstagram:fuzzy-query');
 
 let fuzzyRegex = require('./fuzzy-regex.js');
 

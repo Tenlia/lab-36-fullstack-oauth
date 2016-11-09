@@ -1,11 +1,11 @@
 'use strict';
 
-const request = require('superagent');
 const Router = require('express').Router;
 const User = require('../model/user.js');
+
 const createError = require('http-errors');
 const jsonParser = require('body-parser').json();
-const debug = require('debug')('slugram:auth-router');
+const debug = require('debug')('bookstagram:auth-router');
 const basicAuth = require('../lib/basic-auth-middleware.js');
 const googleOAUTH = require('../lib/google-oauth-middleware.js');
 
@@ -43,18 +43,15 @@ authRouter.get('/api/login', basicAuth, function(req, res, next){
   .catch(next);
 });
 
-authRouter.get('/api/auth/oauth_callback', function(req, res, next){
+authRouter.get('/api/auth/oauth_callback', googleOAUTH, function(req, res){
   debug('GET /api/auth/oauth_callback');
   //should have either req.googleError or req.googleOAUTH
-
-  console.log('googleError', googleError);
-  console.log('googleOAUTH', googleOAUTH);
 
   //if googleError deal with google error
   if(req.googleError){
     return res.redirect('/?error=access_denied');
   }
-  
+
   //check if user already exists
   User.findOne({email: req.googleOAUTH.email})
   .then(user => {
@@ -81,48 +78,10 @@ authRouter.get('/api/auth/oauth_callback', function(req, res, next){
   .then(user => user.generateToken())
   .then(token => {
     res.redirect(`/?token=${token}`);
+  })
+  .catch(err => {
+    console.error(err);
+    console.log('user not found');
+    res.redirect('/');
   });
-//   let data = {
-//     code: req.query.code,
-//     client_id: process.env.GOOGLE_CLIENT_ID,
-//     client_secret: process.env.GOOGLE_CLIENT_SECRET,
-//     redirect_uri: process.enc.API_URL,
-//     grant_type: 'authorization_code',
-//   };
-//
-//   let accessToken, refreshToken, tokenTimeToLive;
-//   request.post('https://www.googleapis.com/oauth2/v4/token')
-//   .type('form')
-//   .send(data)
-//   .then(response => {
-//     accessToken = response.body.access_token;
-//     refreshToken = response.body.refresh_token;
-//     tokenTimeToLive = response.body.expires_in;
-//     return request.get('https://www.googleapis.com/plus/v1/people/me/openIdConnect')
-//     .set('Authorization', `Bearer ${response.body.access_token}`);
-//   })
-//   .then(response => {
-//     let userData = {
-//       username: response.body.email,
-//       email: response.body.email,
-//       google: {
-//         googleID: response.body.sub,
-//         accessToken,
-//         refreshToken,
-//         tokenTimeToLive,
-//       },
-//     };
-//     return new User(userData).save();
-//   })
-//   .then(user => user.generateToken())
-//   .then(token => {
-//     res.send(token);
-//   })
-//   .catch(err => {
-//     console.error(err);
-//     res.send('boo hoo');
-//   });
-//
-//   console.log('req.query', req.query);
-//   res.send('lulwat');
 });

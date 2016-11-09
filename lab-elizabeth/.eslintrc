@@ -15,6 +15,7 @@
   "globals": {
     "angular": true,
     "document": false,
+    "__GOOGLE_CLIENT_ID__": true,
     "__DEBUG__": false,
     "__TITLE__": false,
     "__API_URL__": false

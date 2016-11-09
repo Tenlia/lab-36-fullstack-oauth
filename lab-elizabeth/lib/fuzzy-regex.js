@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('slugram:fuzzy-regex');
+const debug = require('debug')('bookstagram:fuzzy-regex');
 
 module.exports = function(input){
   debug(`creating fuzzy regex from ${input}`);
